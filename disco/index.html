@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>London Disco and 80s Club Checklist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#16121c; --card:#211b2b; --line:#33293f; --ink:#f3eef8; --muted:#a99db8;
+    --p1:#f2b84b; --p2:#e46fa8; --p3:#6fb3e4; --done:#5c536a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,sans-serif;padding:20px 16px 48px}
+  .wrap{max-width:680px;margin:0 auto}
+  h1{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:28px;line-height:1.2;margin:0 0 6px}
+  .sub{color:var(--muted);margin:0 0 18px}
+  .legend{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:18px}
+  .legend div{display:flex;gap:10px;align-items:flex-start;margin:6px 0}
+  .pill{flex:none;display:inline-block;font-size:12px;font-weight:700;padding:2px 9px;border-radius:999px;color:#16121c}
+  .p1{background:var(--p1)} .p2{background:var(--p2)} .p3{background:var(--p3)}
+  .progress{display:flex;justify-content:space-between;align-items:center;margin:0 0 10px;color:var(--muted);font-size:14px}
+  .bar{height:6px;background:var(--line);border-radius:6px;overflow:hidden;margin-bottom:18px}
+  .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--p1),var(--p2));transition:width .3s}
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .filters button{background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font:inherit;font-size:13px;cursor:pointer}
+  .filters button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:22px 0 10px}
+  .item{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--p);border-radius:14px;padding:14px 14px 14px 12px;margin-bottom:12px;display:flex;gap:12px}
+  .item[data-p="1"]{--p:var(--p1)} .item[data-p="2"]{--p:var(--p2)} .item[data-p="3"]{--p:var(--p3)}
+  .item input{flex:none;width:22px;height:22px;margin-top:3px;accent-color:var(--p);cursor:pointer}
+  .item.done{opacity:.55}
+  .item.done .name{text-decoration:line-through}
+  .name{font-weight:700;font-size:17px;margin:0}
+  .where{color:var(--muted);font-size:13px;margin:2px 0 8px}
+  dl{display:grid;grid-template-columns:72px 1fr;gap:3px 10px;margin:0;font-size:14px}
+  dt{color:var(--muted)} dd{margin:0}
+  .note{margin:8px 0 0;font-size:13px;color:var(--muted)}
+  dl{grid-template-columns:86px 1fr}
+  .sp{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:999px;margin-right:4px;color:#16121c}
+  .sp-big{background:#7fd6a0} .sp-medium{background:#f2d36b} .sp-small{background:#f08c7a}
+  a{color:var(--p1)}
+  .foot{color:var(--muted);font-size:12px;margin-top:26px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>London disco and 80s checklist</h1>
+  <p class="sub">Ranked by how easy it is to get to from West London and how much real disco and 80s you will hear. Tick them off as you go.</p>
+
+  <div class="legend">
+    <div><span class="pill p1">P1</span><span><b>Go first.</b> Next to the Central or Elizabeth line, on the 207 / N207 bus route straight home, a big dance floor, and disco plus 80s all night.</span></div>
+    <div><span class="pill p2">P2</span><span><b>Strong pick.</b> Next to the Central or Elizabeth line, but daytime only, occasional dates or mixed programming.</span></div>
+    <div><span class="pill p3">P3</span><span><b>Maybe.</b> About a 10 minute walk from the line, or a different crowd.</span></div>
+    <p style="margin:10px 0 0;font-size:13px;color:var(--muted)">Every venue here is close to a Central or Elizabeth line station. Venues off those lines are listed at the bottom.</p>
+  </div>
+
+  <div class="progress"><span id="count">0 of 0 visited</span></div>
+  <div class="bar"><i id="fill"></i></div>
+
+  <div class="filters" id="filters">
+    <button data-f="all" class="on">All</button>
+    <button data-f="1">P1</button>
+    <button data-f="2">P2</button>
+    <button data-f="3">P3</button>
+    <button data-f="todo">Not been yet</button>
+  </div>
+
+  <div id="list"></div>
+
+  <p class="foot">Checked November 2026. Club nights move venues and dates, so confirm on the listing before you go. Your ticks are saved in this browser only.</p>
+</div>
+
+<script>
+const clubs = [
+  {id:"carwash-loop", p:1, name:"Carwash", where:"Sway, 61 to 65 Great Queen Street, Holborn WC2B 5BZ",
+   station:"Holborn (Central line), 2 min walk", when:"Saturday nights until 03:00",
+   music:"Classic disco, funk and soul anthems",
+   space:"big", spaceNote:"Basement club room for about 300, with 720 across the whole basement",
+   home:"N207 starts at Holborn and runs straight out to West London",
+   note:"Its old home, LOOP on Dering Street, has closed. Carwash now runs Saturdays in Holborn, so check carwash.co.uk for the exact venue before you go. Dress up encouraged.",
+   link:"https://www.carwash.co.uk/carwash/"},
+  {id:"arts-theatre", p:2, name:"The Arts Theatre Club: Retro Disco", where:"50 Frith Street, Soho W1D 4SQ",
+   station:"Tottenham Court Road (Elizabeth line)", when:"Every Saturday, 22:00 to 03:00",
+   music:"70s, 80s and 90s retro", price:"About £13, over 21s, booking required",
+   space:"small", spaceNote:"Basement for about 120 people, roughly 900 sq ft. Gets tight when busy",
+   home:"N207 from Tottenham Court Road straight out to West London",
+   note:"Moved to P2 because of the small dance floor. Go early, before it fills up.",
+   link:"https://www.designmynight.com/london/bars/soho/the-arts-theatre-club/retro-disco"},
+  {id:"lost-in-disco", p:1, name:"Lost In Disco", where:"Bush Hall, 310 Uxbridge Road, Shepherd's Bush W12 7LJ",
+   station:"Shepherd's Bush (Central line), about 10 min walk", when:"Occasional Saturdays, 20:00 to 01:00",
+   music:"Classic disco, funk, rare groove and 70s and 80s dance", price:"From about £12",
+   space:"big", spaceNote:"Built in 1904 as a dance hall; 450 standing",
+   home:"207 or N207 straight out along Uxbridge Road to West London",
+   note:"The closest one to home, in a beautiful old hall with chandeliers. Dates are a few times a year and sell out, so keep an eye out.",
+   link:"https://www.ents24.com/london-events/bush-hall"},
+  {id:"day-fever", p:2, name:"Day Fever", where:"HERE at Outernet, Charing Cross Road WC2H 8LH",
+   station:"Tottenham Court Road (Elizabeth line)", when:"Some Saturdays, 15:00 to 20:00",
+   music:"Feel good disco, funk and party classics", price:"Around £20, aimed at over 30s",
+   space:"big", spaceNote:"Large club hall for about 1,250",
+   home:"Elizabeth line, home by dinner",
+   note:"Monthly-ish dates that sell out fast. Ideal if you want to dance without a 3am finish.",
+   link:"https://www.stereoboard.com/day-fever-tickets/london"},
+  {id:"carwash-sunset", p:2, name:"Carwash Sunset Sessions", where:"Core Bar, 10 to 15 Queen Street, City EC4N 1TX",
+   station:"Bank (Central line)", when:"Selected Saturdays, 17:00 to 22:00",
+   music:"Disco, funk and house", price:"From £10, 25+ (30+ encouraged)",
+   space:"medium", spaceNote:"Downstairs club room for about 180",
+   home:"Central line from Bank, or Elizabeth line from Liverpool Street",
+   note:"The daytime version of Carwash. Sequins and flares welcome.",
+   link:"https://www.designmynight.com/london/bars/city-of-london/core/carwash-daytime-disco-sunset-sessions"},
+  {id:"nhac", p:2, name:"Notting Hill Arts Club", where:"21 Notting Hill Gate W11 3JQ",
+   station:"Notting Hill Gate (Central line), right outside", when:"Varies; disco nights a few times a month",
+   music:"Disco nights such as Lucy's Disco and Disco Daze; other nights vary",
+   space:"medium", spaceNote:"Basement club for about 220",
+   home:"N207 stops at Notting Hill Gate and runs out to West London",
+   note:"Small basement club with a creative crowd. Check the night is a disco one before you go.",
+   link:"https://dash.booked.it/event/276220"},
+  {id:"carwash-fridays", p:3, name:"Carwash Funkin' Up Fridays", where:"Simmons, 104 to 108 Curtain Road, Shoreditch EC2A 3AH",
+   station:"Liverpool Street (Central and Elizabeth), about 10 min walk", when:"Friday nights",
+   music:"House, disco classics, funk and retro anthems",
+   space:"medium", spaceNote:"Cocktail bar with a basement dance floor for about 180",
+   home:"Elizabeth line or Central line from Liverpool Street; N207 from Holborn late at night",
+   note:"Cheap drinks and a younger, uni crowd. Less 80s than the Saturday Carwash.",
+   link:"https://www.eventbrite.co.uk/e/carwash-funkin-up-fridays-tickets-1074162431749"},
+  {id:"lost-80s", p:3, name:"Gary Crowley's Lost 80s Xmas Cavort", where:"Flamingo Room, O'Neill's, Wardour Street, Soho",
+   station:"Tottenham Court Road or Oxford Circus, about 10 min walk", when:"Saturday 12 December 2026, from 13:30",
+   music:"80s, picked by radio DJ Gary Crowley",
+   space:"big", spaceNote:"Top floor room for 400 with a polished wooden floor",
+   home:"Daytime, so Elizabeth line home",
+   note:"A one off Christmas daytime disco in a room with 70 years of club history.",
+   link:"https://www.ents24.com/london-events/oneills-wardour-street/gary-crowleys-lost-80s-xmas-cavort/7528144"}
+];
+
+const dropped = [
+  ["Maggie's, Chelsea", "Gloucester Road (District, Circle, Piccadilly)"],
+  ["South London Soul Train, Peckham", "Overground only"],
+  ["Back In Studio 54, The Jago, Dalston", "Overground only"],
+  ["Brixton Jamm", "Victoria line"],
+  ["Ministry of Sound, Elephant and Castle", "Northern and Bakerloo lines"],
+  ["Infernos, Clapham", "Northern line"]
+];
+
+const KEY = "goki-disco-checklist";
+let done = {};
+try { done = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch(e) { done = {}; }
+let filter = "all";
+
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(done)); } catch(e) {} }
+
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+function render(){
+  const list = document.getElementById("list");
+  const titles = {1:"P1 · Go first", 2:"P2 · Strong pick", 3:"P3 · Maybe"};
+  let html = "";
+  [1,2,3].forEach(p => {
+    const rows = clubs.filter(c => c.p === p).filter(c =>
+      filter === "all" || filter === String(p) || (filter === "todo" && !done[c.id]));
+    if (!rows.length) return;
+    html += `<h2>${titles[p]}</h2>`;
+    rows.forEach(c => {
+      html += `<label class="item ${done[c.id] ? "done" : ""}" data-p="${c.p}">
+        <input type="checkbox" data-id="${c.id}" ${done[c.id] ? "checked" : ""}>
+        <div>
+          <p class="name">${esc(c.name)}</p>
+          <p class="where">${esc(c.where)}</p>
+          <dl>
+            <dt>Station</dt><dd>${esc(c.station)}</dd>
+            <dt>When</dt><dd>${esc(c.when)}</dd>
+            <dt>Music</dt><dd>${esc(c.music)}</dd>
+            ${c.price ? `<dt>Entry</dt><dd>${esc(c.price)}</dd>` : ""}
+            <dt>Dance space</dt><dd><span class="sp sp-${c.space}">${{big:"Big",medium:"Medium",small:"Small"}[c.space]}</span> ${esc(c.spaceNote)}</dd>
+            <dt>Home</dt><dd>${esc(c.home)}</dd>
+          </dl>
+          <p class="note">${esc(c.note)}${c.link ? ` <a href="${c.link}" target="_blank" rel="noopener">Listing</a>` : ""}</p>
+        </div>
+      </label>`;
+    });
+  });
+  if (filter === "all") {
+    html += `<h2>Dropped: not near the Central or Elizabeth line</h2><div class="legend" style="font-size:14px">` +
+      dropped.map(d => `<div><span>${esc(d[0])} <span style="color:var(--muted)">· ${esc(d[1])}</span></span></div>`).join("") +
+      `</div>`;
+  }
+  list.innerHTML = html || `<p class="sub">Nothing left here. Time to find new places!</p>`;
+  const n = clubs.filter(c => done[c.id]).length;
+  document.getElementById("count").textContent = `${n} of ${clubs.length} visited`;
+  document.getElementById("fill").style.width = (n / clubs.length * 100) + "%";
+}
+
+document.getElementById("list").addEventListener("change", e => {
+  const id = e.target.dataset.id; if (!id) return;
+  done[id] = e.target.checked; save(); render();
+});
+document.getElementById("filters").addEventListener("click", e => {
+  const f = e.target.dataset.f; if (!f) return;
+  filter = f;
+  document.querySelectorAll("#filters button").forEach(b => b.classList.toggle("on", b.dataset.f === f));
+  render();
+});
+render();
+</script>
+</body>
+</html>
